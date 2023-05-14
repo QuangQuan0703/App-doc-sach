@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/gray_200">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_page_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/chip_botoom">
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/chip_botoom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:paddingTop="15dp"
+        android:background="@drawable/back_ground_navigation_bottom"
+        android:fadingEdge="horizontal"
+        android:padding="3dp"
+        android:elevation="10dp"
+        app:cnb_unselectedColor="@color/gray_900"
+        app:cnb_menuResource="@menu/menu_chip_buttom"
+        >
+    </com.ismaeldivita.chipnavigation.ChipNavigationBar>
+
+</RelativeLayout>

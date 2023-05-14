@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home_button"
+        android:title="@string/icon_home"
+        android:icon="@drawable/home_icon"
+        app:cnb_iconColor="@color/gren_900"
+        />
+    <item
+        android:id="@+id/sreach_button"
+        android:title="@string/icon_sreach"
+        android:icon="@drawable/sreach_icon"
+        app:cnb_iconColor="@color/gren_900"/>
+    <item
+        android:id="@+id/library_button"
+        android:title="@string/icon_library"
+        android:icon="@drawable/library_icon"
+        app:cnb_iconColor="@color/gren_900"/>
+    <item
+        android:id="@+id/user_button"
+        android:icon="@drawable/user_icon"
+        android:title="@string/icon_user"
+        app:cnb_iconColor="@color/gren_900"/>
+
+</menu>
