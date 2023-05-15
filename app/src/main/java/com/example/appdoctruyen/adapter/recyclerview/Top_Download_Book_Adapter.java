@@ -36,7 +36,7 @@ public class Top_Download_Book_Adapter extends RecyclerView.Adapter<Top_Download
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.textView.setText(itemsRecycler.get(position).getRate());
-        Picasso.get().load(itemsRecycler.get(position).getImageView()).into(holder.imageView);
+        Picasso.get().load(itemsRecycler.get(position).getCover_Book()).into(holder.imageView);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class Maybe_Like_Book_Adaper extends RecyclerView.Adapter<Maybe_Like_Book
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.textView.setText(itemsRecycler.get(position).getRate());
-        Picasso.get().load(itemsRecycler.get(position).getImageView()).into(holder.imageView);
+        Picasso.get().load(itemsRecycler.get(position).getCover_Book()).into(holder.imageView);
     }
 
     @Override

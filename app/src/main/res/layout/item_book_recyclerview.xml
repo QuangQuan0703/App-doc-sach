@@ -28,7 +28,8 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="3.6dp"
                 android:background="@color/gray_50"
-                android:src="@drawable/rate"></ImageView>
+                android:src="@drawable/rate">
+            </ImageView>
 
             <TextView
                 android:id="@+id/rate_text_book_recycler"

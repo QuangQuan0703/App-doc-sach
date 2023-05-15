@@ -24,10 +24,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appdoctruyen.R;
 import com.example.appdoctruyen.adapter.recyclerview.Favorite_Book_Adapter;
+import com.example.appdoctruyen.adapter.recyclerview.Inteface.Recycler_View_Interface;
 import com.example.appdoctruyen.adapter.recyclerview.Maybe_Like_Book_Adaper;
 import com.example.appdoctruyen.adapter.recyclerview.Top_Download_Book_Adapter;
 import com.example.appdoctruyen.adapter.recyclerview.Update_Book_Adapter;
@@ -40,8 +42,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Home_Fragment extends Fragment {
-    private final String URL = "https://android-kotlin-fun-mars-server.appspot.com/photos?hl=vi";
+public class Home_Fragment extends Fragment implements Recycler_View_Interface {
+    private final ArrayList<String> LIST_URL = new ArrayList<>();
     RecyclerView recyclerViewUpdate, recyclerViewFavorite, recyclerViewTopDownload, recyclerViewMaybeLike;
     Update_Book_Adapter update_book_adapter;
     Favorite_Book_Adapter favorite_book_adapter;
@@ -61,6 +63,14 @@ public class Home_Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
+        //link get update book
+        LIST_URL.add("https://databaseserverquan.000webhostapp.com/server/get_book_update.php");
+        //link get favorite book
+        LIST_URL.add("https://databaseserverquan.000webhostapp.com/server/get_book_favorit.php");
+        //link get maybe like book
+        LIST_URL.add("https://databaseserverquan.000webhostapp.com/server/get_book_maybelike.php");
+        //link get downloads book
+        LIST_URL.add("https://databaseserverquan.000webhostapp.com/server/get_book_dowloads.php");
         recyclerViewUpdate = (RecyclerView) view.findViewById(R.id.update_book_recycler);
         recyclerViewFavorite = (RecyclerView) view.findViewById(R.id.like_book_recycler);
         recyclerViewTopDownload = (RecyclerView) view.findViewById(R.id.dowload_book_recycler);
@@ -74,28 +84,32 @@ public class Home_Fragment extends Fragment {
 
     private void updateRecyclerBook  (Context context) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonArrayRequest request;
-        request = new JsonArrayRequest(URL,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        if (response == null) {
-                            Toast.makeText(getActivity(), "Couldn't fetch the store items! Pleas try again.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        for (int i = 0; i <= response.length(); i++) {
-                            try {
-                                JSONObject a = response.getJSONObject(i);
-                                update_item_book_recyclers.add(new Item_Book_Recycler(a.getString("img_src"), a.getString("id").substring(1)));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        update_book_adapter = new Update_Book_Adapter(update_item_book_recyclers);
-                        recyclerViewUpdate.setAdapter(update_book_adapter);
-
+        JsonObjectRequest request;
+        request = new JsonObjectRequest(LIST_URL.get(0), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (response == null){
+                    Toast.makeText(getActivity(), "Couldn't fetch the store items! Pleas try again.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                for (int i =0; i < response.length(); i++){
+                    String nameObject = Integer.toString(i);
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(nameObject);
+                        update_item_book_recyclers.add(new Item_Book_Recycler(
+                                jsonObject.getString("name_book")
+                                ,jsonObject.getString("cover_book")
+                                ,jsonObject.getString("id_book")
+                                ,jsonObject.getString("data_book")
+                                ,jsonObject.getString("author_book")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
+                }
+                update_book_adapter= new Update_Book_Adapter(update_item_book_recyclers, this);
+                recyclerViewUpdate.setAdapter(update_book_adapter);
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(String.valueOf(error), error.getMessage());
@@ -106,28 +120,32 @@ public class Home_Fragment extends Fragment {
     }
     private void favoriteRecyclerBook  (Context context) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonArrayRequest request;
-        request = new JsonArrayRequest(URL,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        if (response == null) {
-                            Toast.makeText(getActivity(), "Couldn't fetch the store items! Pleas try again.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        for (int i = 0; i <= response.length(); i++) {
-                            try {
-                                JSONObject a = response.getJSONObject(i);
-                                favorite_item_book_recyclers.add(new Item_Book_Recycler(a.getString("img_src"), a.getString("id").substring(1)));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        favorite_book_adapter = new Favorite_Book_Adapter(favorite_item_book_recyclers);
-                        recyclerViewFavorite.setAdapter(favorite_book_adapter);
-
+        JsonObjectRequest request;
+        request = new JsonObjectRequest(LIST_URL.get(1), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (response == null){
+                    Toast.makeText(getActivity(), "Couldn't fetch the store items! Pleas try again.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                for (int i =0; i < response.length(); i++){
+                    String nameObject = Integer.toString(i);
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(nameObject);
+                        favorite_item_book_recyclers.add(new Item_Book_Recycler(
+                                jsonObject.getString("name_book")
+                                ,jsonObject.getString("cover_book")
+                                ,jsonObject.getString("id_book")
+                                ,jsonObject.getString("data_book")
+                                ,jsonObject.getString("author_book")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
+                }
+                favorite_book_adapter = new Favorite_Book_Adapter(favorite_item_book_recyclers);
+                recyclerViewFavorite.setAdapter(favorite_book_adapter);
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(String.valueOf(error), error.getMessage());
@@ -138,28 +156,32 @@ public class Home_Fragment extends Fragment {
     }
     private void topDownloadRecycler  (Context context) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonArrayRequest request;
-        request = new JsonArrayRequest(URL,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        if (response == null) {
-                            Toast.makeText(getActivity(), "Couldn't fetch the store items! Pleas try again.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        for (int i = 0; i <= response.length(); i++) {
-                            try {
-                                JSONObject a = response.getJSONObject(i);
-                                top_download_item_book_recyclers.add(new Item_Book_Recycler(a.getString("img_src"), a.getString("id").substring(1)));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        top_download_book_adapter = new Top_Download_Book_Adapter(top_download_item_book_recyclers);
-                        recyclerViewTopDownload.setAdapter(top_download_book_adapter);
-
+        JsonObjectRequest request;
+        request = new JsonObjectRequest(LIST_URL.get(2), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (response == null){
+                    Toast.makeText(getActivity(), "Couldn't fetch the store items! Pleas try again.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                for (int i =0; i < response.length(); i++){
+                    String nameObject = Integer.toString(i);
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(nameObject);
+                        top_download_item_book_recyclers.add(new Item_Book_Recycler(
+                                jsonObject.getString("name_book")
+                                ,jsonObject.getString("cover_book")
+                                ,jsonObject.getString("id_book")
+                                ,jsonObject.getString("data_book")
+                                ,jsonObject.getString("author_book")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
+                }
+                top_download_book_adapter = new Top_Download_Book_Adapter(top_download_item_book_recyclers);
+                recyclerViewTopDownload.setAdapter(top_download_book_adapter);
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(String.valueOf(error), error.getMessage());
@@ -170,28 +192,32 @@ public class Home_Fragment extends Fragment {
     }
     private void maybeLikeRecycler  (Context context) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonArrayRequest request;
-        request = new JsonArrayRequest(URL,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        if (response == null) {
-                            Toast.makeText(getActivity(), "Couldn't fetch the store items! Pleas try again.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        for (int i = 0; i <= response.length(); i++) {
-                            try {
-                                JSONObject a = response.getJSONObject(i);
-                                maybe_like_item_book_recyclers.add(new Item_Book_Recycler(a.getString("img_src"), a.getString("id").substring(1)));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        maybe_like_book_adaper = new Maybe_Like_Book_Adaper(maybe_like_item_book_recyclers);
-                        recyclerViewMaybeLike.setAdapter(maybe_like_book_adaper);
-
+        JsonObjectRequest request;
+        request = new JsonObjectRequest(LIST_URL.get(3), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (response == null){
+                    Toast.makeText(getActivity(), "Couldn't fetch the store items! Pleas try again.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                for (int i =0; i < response.length(); i++){
+                    String nameObject = Integer.toString(i);
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(nameObject);
+                        maybe_like_item_book_recyclers.add(new Item_Book_Recycler(
+                                jsonObject.getString("name_book")
+                                ,jsonObject.getString("cover_book")
+                                ,jsonObject.getString("id_book")
+                                ,jsonObject.getString("data_book")
+                                ,jsonObject.getString("author_book")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
+                }
+                maybe_like_book_adaper = new Maybe_Like_Book_Adaper(maybe_like_item_book_recyclers);
+                recyclerViewMaybeLike.setAdapter(maybe_like_book_adaper);
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(String.valueOf(error), error.getMessage());
@@ -199,5 +225,10 @@ public class Home_Fragment extends Fragment {
             }
         });
         requestQueue.add(request);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 }
