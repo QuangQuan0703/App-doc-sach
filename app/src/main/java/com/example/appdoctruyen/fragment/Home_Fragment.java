@@ -1,31 +1,23 @@
 package com.example.appdoctruyen.fragment;
 
-import android.app.DownloadManager;
 import android.content.Context;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appdoctruyen.R;
 import com.example.appdoctruyen.adapter.recyclerview.Favorite_Book_Adapter;
@@ -34,9 +26,8 @@ import com.example.appdoctruyen.adapter.recyclerview.Maybe_Like_Book_Adaper;
 import com.example.appdoctruyen.adapter.recyclerview.Top_Download_Book_Adapter;
 import com.example.appdoctruyen.adapter.recyclerview.Update_Book_Adapter;
 import com.example.appdoctruyen.model.Item_Book_Recycler;
-import com.squareup.picasso.Picasso;
+import com.example.appdoctruyen.Introduction_Read_Activity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -79,6 +70,7 @@ public class Home_Fragment extends Fragment implements Recycler_View_Interface {
         favoriteRecyclerBook(view.getContext());
         topDownloadRecycler(view.getContext());
         maybeLikeRecycler(view.getContext());
+
         return view;
     }
 
@@ -106,7 +98,7 @@ public class Home_Fragment extends Fragment implements Recycler_View_Interface {
                         e.printStackTrace();
                     }
                 }
-                update_book_adapter= new Update_Book_Adapter(update_item_book_recyclers, this);
+                update_book_adapter= new Update_Book_Adapter(update_item_book_recyclers, Home_Fragment.this);
                 recyclerViewUpdate.setAdapter(update_book_adapter);
             }
         }, new Response.ErrorListener() {
@@ -142,7 +134,7 @@ public class Home_Fragment extends Fragment implements Recycler_View_Interface {
                         e.printStackTrace();
                     }
                 }
-                favorite_book_adapter = new Favorite_Book_Adapter(favorite_item_book_recyclers);
+                favorite_book_adapter = new Favorite_Book_Adapter(favorite_item_book_recyclers, Home_Fragment.this);
                 recyclerViewFavorite.setAdapter(favorite_book_adapter);
             }
         }, new Response.ErrorListener() {
@@ -178,7 +170,7 @@ public class Home_Fragment extends Fragment implements Recycler_View_Interface {
                         e.printStackTrace();
                     }
                 }
-                top_download_book_adapter = new Top_Download_Book_Adapter(top_download_item_book_recyclers);
+                top_download_book_adapter = new Top_Download_Book_Adapter(top_download_item_book_recyclers, Home_Fragment.this);
                 recyclerViewTopDownload.setAdapter(top_download_book_adapter);
             }
         }, new Response.ErrorListener() {
@@ -214,7 +206,7 @@ public class Home_Fragment extends Fragment implements Recycler_View_Interface {
                         e.printStackTrace();
                     }
                 }
-                maybe_like_book_adaper = new Maybe_Like_Book_Adaper(maybe_like_item_book_recyclers);
+                maybe_like_book_adaper = new Maybe_Like_Book_Adaper(maybe_like_item_book_recyclers, Home_Fragment.this);
                 recyclerViewMaybeLike.setAdapter(maybe_like_book_adaper);
             }
         }, new Response.ErrorListener() {
@@ -228,7 +220,11 @@ public class Home_Fragment extends Fragment implements Recycler_View_Interface {
     }
 
     @Override
-    public void onItemClick(int position) {
-
+    public void onItemClick(Item_Book_Recycler position) {
+        Intent intent_Read_Book = new Intent(this.getActivity(), Introduction_Read_Activity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("book", position);
+        intent_Read_Book.putExtras(bundle);
+        startActivity(intent_Read_Book);
     }
 }

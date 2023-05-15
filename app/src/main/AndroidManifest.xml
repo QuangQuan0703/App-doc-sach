@@ -27,10 +27,17 @@
                 android:value="" >
             </meta-data>
         </activity>
-        <activity android:name="com.example.appdoctruyen.read_activity"
+        <activity android:name="com.example.appdoctruyen.Introduction_Read_Activity"
             android:exported="true">
 
 
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" >
+            </meta-data>
+        </activity>
+        <activity android:name="com.example.appdoctruyen.Read_Book"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" >

@@ -27,12 +27,11 @@ import java.util.List;
 
 public class Update_Book_Adapter extends RecyclerView.Adapter<Update_Book_Adapter.ViewHolderUpdate> {
     private final Recycler_View_Interface recycler_view_interface;
-    Context context;
-    ArrayList<Item_Book_Recycler> itemsRecycler;
+    private ArrayList<Item_Book_Recycler> itemsRecycler;
 
-    public Update_Book_Adapter(ArrayList<Item_Book_Recycler> itemsRecycler, Recycler_View_Interface recycler_view_interface) {
+    public Update_Book_Adapter(ArrayList<Item_Book_Recycler> itemsRecycler, Recycler_View_Interface recycler_view) {
         this.itemsRecycler = itemsRecycler;
-        this.recycler_view_interface = recycler_view_interface;
+        this.recycler_view_interface = recycler_view;
     }
 
     @NonNull
@@ -46,6 +45,13 @@ public class Update_Book_Adapter extends RecyclerView.Adapter<Update_Book_Adapte
     public void onBindViewHolder(@NonNull ViewHolderUpdate holder, int position) {
         holder.textView.setText(itemsRecycler.get(position).getRate());
         Picasso.get().load(itemsRecycler.get(position).getCover_Book()).into(holder.imageView);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Item_Book_Recycler  book = itemsRecycler.get(holder.getAbsoluteAdapterPosition());
+                recycler_view_interface.onItemClick(book);
+            }
+        });
     }
 
     @Override
@@ -61,17 +67,7 @@ public class Update_Book_Adapter extends RecyclerView.Adapter<Update_Book_Adapte
             super(itemView);
             imageView = itemView.findViewById(R.id.image_book_recycler);
             textView = itemView.findViewById(R.id.rate_text_book_recycler);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (recycler_view_interface != null){
-                        int position = getAbsoluteAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            recycler_view_interface.onItemClick(position);
-                        }
-                    }
-                }
-            });
+
         }
     }
 }

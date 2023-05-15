@@ -2,7 +2,9 @@ package com.example.appdoctruyen.model;
 
 import android.widget.ImageButton;
 
-public class Item_Book_Recycler {
+import java.io.Serializable;
+
+public class Item_Book_Recycler implements Serializable {
     String name_book;
     String cover_Book;
     String rate;
