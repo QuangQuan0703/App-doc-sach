@@ -23,7 +23,7 @@ import java.net.URL;
 
 public class Read_Book extends AppCompatActivity {
     private PDFView pdfView;
-    private  String URL_DATA_BOOK;
+    private  String URL_DATA;
     private Intent intent;
 
     @Override
@@ -32,8 +32,8 @@ public class Read_Book extends AppCompatActivity {
         setContentView(R.layout.read_book);
         pdfView = findViewById(R.id.pdfview);
         intent = getIntent();
-        URL_DATA_BOOK = (String) intent.getExtras().get("book_data");
-        new RetrievePDFStream().execute(URL_DATA_BOOK);
+        URL_DATA= (String) intent.getExtras().get("book_data");
+        new RetrievePDFStream().execute(URL_DATA);
     }
 
     class RetrievePDFStream extends AsyncTask<String, Void, InputStream> {
