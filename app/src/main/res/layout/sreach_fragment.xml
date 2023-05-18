@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_search_book"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/back_ground_sreach"
+        app:iconifiedByDefault="false"
+        app:searchIcon="@drawable/search__1_"
+        app:queryHint="Tìm kiếm..."
+        android:focusable="false"
+        >
+    </androidx.appcompat.widget.SearchView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sreach_recycler_sreach_book"
+        android:layout_below="@id/search_search_book"
+        android:layout_alignParentBottom="true"
+        android:layout_width="390dp"
         android:layout_height="match_parent"
-        android:text="Sreach"
-        android:textSize="30dp">
-    </TextView>
-</LinearLayout>
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="10dp">
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

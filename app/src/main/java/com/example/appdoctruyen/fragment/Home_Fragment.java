@@ -35,15 +35,15 @@ import java.util.ArrayList;
 
 public class Home_Fragment extends Fragment implements Recycler_View_Interface {
     private final ArrayList<String> LIST_URL = new ArrayList<>();
-    RecyclerView recyclerViewUpdate, recyclerViewFavorite, recyclerViewTopDownload, recyclerViewMaybeLike;
-    Update_Book_Adapter update_book_adapter;
-    Favorite_Book_Adapter favorite_book_adapter;
-    Top_Download_Book_Adapter top_download_book_adapter;
-    Maybe_Like_Book_Adaper maybe_like_book_adaper;
-    ArrayList<Item_Book_Recycler> update_item_book_recyclers = new ArrayList<>();
-    ArrayList<Item_Book_Recycler> favorite_item_book_recyclers = new ArrayList<>();
-    ArrayList<Item_Book_Recycler> top_download_item_book_recyclers = new ArrayList<>();
-    ArrayList<Item_Book_Recycler> maybe_like_item_book_recyclers = new ArrayList<>();
+    private RecyclerView recyclerViewUpdate, recyclerViewFavorite, recyclerViewTopDownload, recyclerViewMaybeLike;
+    private Update_Book_Adapter update_book_adapter;
+    private Favorite_Book_Adapter favorite_book_adapter;
+    private Top_Download_Book_Adapter top_download_book_adapter;
+    private Maybe_Like_Book_Adaper maybe_like_book_adaper;
+    private ArrayList<Item_Book_Recycler> update_item_book_recyclers = new ArrayList<>();
+    private ArrayList<Item_Book_Recycler> favorite_item_book_recyclers = new ArrayList<>();
+    private ArrayList<Item_Book_Recycler> top_download_item_book_recyclers = new ArrayList<>();
+    private ArrayList<Item_Book_Recycler> maybe_like_item_book_recyclers = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

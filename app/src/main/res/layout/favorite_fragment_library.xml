@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:id="@+id/text_favorite"
         android:text="Fravorite"
         android:gravity="center"
         android:textSize="50dp"
